@@ -1,6 +1,6 @@
 # langchain-llamaindex-llm
 因为这两个库迭代太快➕看不懂大佬们写的代码➕英语不好➕踩坑太多➕环境配置总是冲突，所以自己造一个简单的仓库方便自己造福和我一样的小可怜
-github地址：https://github.com/babytreemi/langchain-llamaindex-llm
+github地址：<https://github.com/babytreemi/langchain-llamaindex-llm>
 
 目前主要是针对python，js后期可能会加入
 ## 介绍
@@ -16,15 +16,15 @@ There are two main value props the LangChain framework provides:
 
 
 ## 常用链接
-langchain集成的列表：https://langchain.com/integrations.html
+langchain集成的列表：<https://langchain.com/integrations.html>
 
-langchain Pythonrepo：https://github.com/hwchase17/langchain
+langchain Pythonrepo：<https://github.com/hwchase17/langchain>
 
-langchain doc4python: https://python.langchain.com/en/latest/
+langchain doc4python: <https://python.langchain.com/en/latest/>
 
-langchain doc4js: https://js.langchain.com/docs/
+langchain doc4js: <https://js.langchain.com/docs/>
 
-使用google搜索需要设置SERPAPI_API_KEY，在这里注册：https://serpapi.com/users/welcome
+使用google搜索需要设置SERPAPI_API_KEY，在这里注册：<https://serpapi.com/users/welcome>
 ## 常用命令和代码
 
 ### 1. install
@@ -62,5 +62,5 @@ os.environ["OPENAI_API_KEY"] = "..."
 
 ## 相关论文
 
-· MemPrompt: Memory-assisted Prompt Editing with User Feedback https://memprompt.com/
+· [MemPrompt: Memory-assisted Prompt Editing with User Feedback]( https://memprompt.com/)
 
