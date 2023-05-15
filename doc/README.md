@@ -1,7 +1,8 @@
 # langchain-llamaindex-llm
 因为这两个库迭代太快➕看不懂大佬们写的代码➕英语不好➕踩坑太多➕环境配置总是冲突，所以自己造一个简单的仓库方便自己造福和我一样的小可怜
+github地址：https://github.com/babytreemi/langchain-llamaindex-llm
 
-本仓库目前主要是针对python，js后期可能会加入
+目前主要是针对python，js后期可能会加入
 ## 介绍
 **LangChain** 是一个用于开发由语言模型驱动的应用程序的框架。我们相信，强大和有区分度的应用程序不仅能通过 API 调用语言模型，而且应该可以：
 1. Be data-aware: connect a language model to other sources of data
