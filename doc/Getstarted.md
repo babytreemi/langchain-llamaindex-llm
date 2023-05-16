@@ -323,3 +323,10 @@ llm = OpenAI(model_name="text-davinci-002", n=2, best_of=2, cache=False)
 **Optional Caching in Chains**
 
 关闭chain中特定节点的缓存
+```python
+llm = OpenAI(model_name="text-davinci-002")
+no_cache_llm = OpenAI(model_name="text-davinci-002", cache=False)
+
+chain = load_summarize_chain(llm, chain_type="map_reduce", reduce_llm=no_cache_llm)
+
+```

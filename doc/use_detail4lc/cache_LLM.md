@@ -220,3 +220,11 @@ chain.run(docs)
 ```
 
 当我们再次运行 `chain.run()时候，会发现运行得更快，但最终的答案是不同的。这是由于在 map 步骤缓存，而在 reduce 步骤不进行缓存。
+
+
+相关命令
+
+```shell
+rm .langchain.db
+rm .langchain.db sqlite.db
+```
