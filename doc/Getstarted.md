@@ -225,6 +225,7 @@ agent.run("What is 'Bocchi the Rock!'?")
 
 - [ ] 整合 [GPTCache](https://github.com/zilliztech/GPTCache)
 
+
 **In Memory Cache**
 
 ```python
@@ -238,4 +239,68 @@ from langchain.cache import SQLiteCache
 langchain.llm_cache = SQLiteCache(database_path=".langchain.db")
 ```
 
+**Redis Cache**
 
+Standard Cache
+
+```python
+from redis import Redis
+from langchain.cache import RedisCache
+
+langchain.llm_cache = RedisCache(redis_=Redis())
+```
+Semantic Cache
+
+```python
+from langchain.embeddings import OpenAIEmbeddings
+from langchain.cache import RedisSemanticCache
+
+
+langchain.llm_cache = RedisSemanticCache(
+    redis_url="redis://localhost:6379",
+    embedding=OpenAIEmbeddings()
+)
+```
+
+**GPTCache**
+
+官方doc代码有错误，修正见常见错误及解决方案
+
+ exact match
+
+ ```python
+ from gptcache import Cache
+from gptcache.manager.factory import manager_factory
+from gptcache.processor.pre import get_prompt
+from langchain.cache import GPTCache
+
+# Avoid multiple caches using the same file, causing different llm model caches to affect each other
+
+def init_gptcache(cache_obj: Cache, llm: str):
+    cache_obj.init(
+        pre_embedding_func=get_prompt,
+        data_manager=manager_factory(manager="map", data_dir=f"map_cache_{llm}"),
+    )
+
+langchain.llm_cache = GPTCache(init_gptcache)
+
+``` 
+similarity caching
+
+```python
+
+from gptcache import Cache
+from gptcache.adapter.api import init_similar_cache
+from langchain.cache import GPTCache
+
+# Avoid multiple caches using the same file, causing different llm model caches to affect each other
+
+def init_gptcache(cache_obj: Cache, llm: str):
+    init_similar_cache(cache_obj=cache_obj, data_dir=f"similar_cache_{llm}")
+
+langchain.llm_cache = GPTCache(init_gptcache)
+```
+
+**SQLAlchemy Cache**
+
+```python
