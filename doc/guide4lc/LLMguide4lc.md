@@ -1,22 +1,9 @@
-# Getting Started4langchain
-本文档只展示一些核心代码，具体代码见：<https://github.com/babytreemi/langchain-llamaindex-llm/tree/main/doc/use_detail4lc>
-
-快速体验langchain的[notebook](https://github.com/babytreemi/langchain-llamaindex-llm/tree/main/notebooks#:~:text=QuickstartGuide.-,ipynb,-QuickstartGuide11.ipynb)
-
-langchain为模型提供了一个标准统一的接口
-
-有两种主要类型的模型：
-
-**1. 语言模型**：适合文本生成
-
-**2. text-embedding模型**：适用于将文本转换为数字表示
-
-## 语言模型
+# 语言模型
 语言模型有两种不同的子类型：
 
-1. LLMs：文本并返回文本
+1. LLMs：接收文本并返回文本
 
-2. ChatModels：收聊天消息并返回聊天消息
+2. ChatModels：接收聊天消息并返回聊天消息
    
 ```python
 from langchain.llms import OpenAI
@@ -467,17 +454,209 @@ with get_openai_callback() as cb:
 The examples here are all “how-to” guides for how to integrate with various LLM providers.
 这里仅展示常用的，详细请见：[Integrations](https://python.langchain.com/en/latest/modules/models/llms/integrations.html)
 
-1. **AI21**_API_KEY获取： <https://studio.ai21.com/account/account>
+1. **AI21** <https://studio.ai21.com/account/account>
 
     `pip install ai21`
 
 2. **Aleph Alpha**  主要针对[Luminous Model Family](https://docs.aleph-alpha.com/docs/introduction/luminous/)
    
+    <https://docs.aleph-alpha.com/docs/account/#create-a-new-token>
+   
    `pip install aleph-alpha-client`
 
-   KEY获取：<https://docs.aleph-alpha.com/docs/account/#create-a-new-token>
+  
 3. **Anyscale** <https://docs.anyscale.com/productionize/services-v2/get-started>
 
-4. **Azure OpenAI** 官网:<https://azure.microsoft.com/en-us/products/cognitive-services/openai-service/>
+4. **Azure OpenAI** <https://azure.microsoft.com/en-us/products/cognitive-services/openai-service/>
     
-5. **Banana**
+5. **Banana**  <https://app.banana.dev/>
+   
+    `pip install banana-dev`
+
+6. **CerebriumAI**  <https://dashboard.cerebrium.ai/login>
+   
+   `Cerebrium ` 是 AWS Sagemaker 的一个替代方案
+
+   `pip3 install cerebrium`
+
+7. **Cohere**  <https://dashboard.cohere.ai/>
+   
+    `pip install cohere`
+
+8. **DeepInfra**  <https://deepinfra.com/dash/deployments>
+
+9. **ForefrontAI** <https://docs.forefront.ai/forefront/api-reference/authentication>
+
+   `Forefront` 微调和使用开源大型语言模型。 
+
+10. **GooseAI** <https://goose.ai/>
+    
+     `GooseAI` is a fully managed NLP-as-a-Service, delivered via API. 
+11. **GPT4All** 项目地址：<https://github.com/nomic-ai/gpt4all>
+ 
+    GPT4All是一个开源聊天机器人生态系统，在大量干净的助手数据（包括代码、故事和对话）上进行训练。
+
+    支持本地运行
+    ```python
+    # Callbacks support token-wise streaming
+    callbacks = [StreamingStdOutCallbackHandler()]
+    # Verbose is required to pass to the callback manager
+    llm = GPT4All(model=local_path, callbacks=callbacks, verbose=True)
+    # If you want to use GPT4ALL_J model add the backend parameter
+    llm = GPT4All(model=local_path, backend='gptj', callbacks=callbacks, verbose=True)
+    ```
+
+12. **Hugging Face Hub** <https://huggingface.co/docs/api-inference/quicktour#get-your-api-token>
+    
+    `pip install huggingface_hub > /dev/null`
+
+    tips: `> /dev/null`：这是一个shell命令，意思是将命令的输出（也就是`pip install huggingface_hu`b的输出）重定向到`/dev/null`。`/dev/null`是一个特殊的文件，所有写入它的数据都会被丢弃，也就是说，这个命令的输出不会显示在命令行界面上。
+    ```python
+    repo_id = "google/flan-t5-xl" 
+    # See https://huggingface.co/models?pipeline_tag=text-generation&sort=downloads for some other options
+    
+    llm = HuggingFaceHub(repo_id=repo_id, model_kwargs={"temperature":0, "max_length":64})
+    ```
+
+13. **Hugging Face Local Pipelines**
+    
+    `HuggingFacePipeline` class:在本地运行huggingface模型
+
+    `pip install transformers > /dev/null
+
+    ```python
+    from langchain import HuggingFacePipeline
+    
+    llm = HuggingFacePipeline.from_model_id(model_id="bigscience/bloom-1b7", task="text-generation", model_kwargs={"temperature":0, "max_length":64})
+    ```
+14. **Huggingface TextGen Inference**
+
+    Text Generation Inference是一个用于文本生成推理的Rust, Python和gRPC服务器。HuggingFace在生产中使用，为llm api-inference widges 提供动力。
+
+    `pip3 install text_generation  `
+        
+    ```python
+
+    llm = HuggingFaceTextGenInference(
+        inference_server_url='http://localhost:8010/',\
+        max_new_tokens=512,
+        top_k=10,
+        top_p=0.95,
+        typical_p=0.95,
+        temperature=0.01,
+        repetition_penalty=1.03,
+        )
+    llm("What did foo say about bar?")
+    ```
+15. **Structured Decoding with JSONFormer**
+    
+    JSONFormer是一个库，它封装了本地HuggingFace pipeline模型，用于对JSON模式的一个子集进行结构化解码。
+    它通过填充结构令牌，然后从模型中采样内容令牌来工作。
+
+    `pip install --upgrade jsonformer > /dev/null`
+
+    - [ ] 优化langchain-chatglm的result
+
+    ```python
+    json_former = JsonFormer(json_schema=decoder_schema, pipeline=hf_model)
+    results = json_former.predict(prompt, stop=["Observation:", "Human:"])
+    print(results)
+    ```
+16. **Llama-cpp** <https://github.com/abetlen/llama-cpp-python> 
+    
+    不需要`API_token`
+
+    `pip install llama-cpp-python`
+
+17. **Manifest** 
+
+    有关`manifest`的更多详细信息，以及如何将其与本例中的本地hugginface模型一起使用，参阅<https://github.com/HazyResearch/manifest>
+
+    example: <https://github.com/HazyResearch/manifest/blob/main/examples/langchain_chatgpt.ipynb>
+
+    `pip install manifest-ml`
+    
+
+    可以用于比较 HF Models
+
+18. **Modal**  <https://modal.com/docs/guide>
+    
+    Modal Python Library提供了从本地计算机上的Python脚本方便地按需访问无服务器云计算的功能。Modal本身不提供任何llm，只提供基础设施。
+
+    `pip install modal-client`
+
+    `modal token new`
+
+19. **NLP Cloud** <https://nlpcloud.com/>
+
+    get a token: <https://docs.nlpcloud.com/#authentication>
+
+    NLP Cloud为NER、情感分析、分类、摘要、释义、语法和拼写纠正、关键字和关键短语提取、聊天机器人、产品描述和广告生成、意图分类、文本生成、图像生成、博客帖子生成、代码生成、问答、自动语音识别、机器翻译、语言检测、语义搜索、语义相似度、标记化、POS标记、嵌入和依赖项解析。它已经为生产做好了准备，通过REST API提供服务
+
+    `pip install nlpcloud`
+
+20. **OpenAI** <https://platform.openai.com/account/api-keys>
+21. **Petals** <https://github.com/bigscience-workshop/petals>
+    
+    用的是huggingface的apikey <https://huggingface.co/docs/api-inference/quicktour#get-your-api-token>
+
+22. **PipelineAI** <https://docs.pipeline.ai/docs/cloud-quickstart>
+    
+    使用PipelineAI在云端大规模运行机器学习模型。还提供了对几个LLM模型的API访问:<https://www.mystic.ai/pipeline-catalyst>。
+
+    `pip install pipeline-ai`
+
+23. **PredictionGuard**
+    这是一个wrapper 
+    
+    使用参考：<https://python.langchain.com/en/latest/modules/models/llms/integrations/predictionguard.html>
+
+24. **PromptLayer OpenAI**  <https://promptlayer.com/>
+    
+    `PromptLayer`是第一个允许您跟踪、管理和共享GPT提示工程的平台。`PromptLayer`充当代码和`OpenAI` python库之间的中间件。`PromptLayer`记录所有`OpenAI API`请求，允许在`PromptLayer`仪表板中搜索和探索请求历史以及跟进模型性能。
+
+    [example1](https://python.langchain.com/en/latest/modules/models/llms/integrations/promptlayer_openai.html)
+
+    [example2](https://python.langchain.com/en/latest/ecosystem/promptlayer.html)
+
+25. Structured Decoding with RELLM <https://github.com/r2d4/rellm>
+    
+    RELLM是一个库，它封装了用于结构化解码的本地HuggingFace管道模型。
+    它的工作原理是一次生成一个令牌。在每一步中，它都会屏蔽不符合所提供的部分正则表达式的令牌
+    
+    `pip install rellm > /dev/null`
+26. **Replicate**
+    
+    replication在云端运行机器学习模型。langchain有一个开源模型库，你可以用几行代码运行它。如果您正在构建自己的机器学习模型，则可以轻松地大规模部署它们。(也可以用cv或者多模态模型)
+
+    模型库: <https://replicate.com/explore>
+
+    具体例子参考：<https://python.langchain.com/en/latest/modules/models/llms/integrations/replicate.html> (这是一个关于图像生成的例子)
+
+27. **Runhouse** <https://github.com/run-house/runhouse>
+    
+    Runhouse允许跨环境和用户的远程计算和数据。参见[Runhouse文档](https://runhouse-docs.readthedocs-hosted.com/en/latest/)。
+
+    [例子](https://python.langchain.com/en/latest/modules/models/llms/integrations/runhouse.html)介绍了如何使用LangChain和Runhouse与托管在您自己的GPU上的模型进行交互，或者在AWS、GCP、AWS或Lambda上的GPU。
+
+    Note: Code uses `SelfHosted` name instead of the `Runhouse`.
+
+    `pip install runhouse`
+
+
+28. **SageMakerEndpoint**  <https://aws.amazon.com/cn/sagemaker/>
+    
+    Amazon SageMaker是一个可以为任何用例构建、训练和部署机器学习(ML)模型的系统，具有完全托管的基础设施、工具和工作流。
+
+29. **StochasticAI** <https://docs.stochastic.ai/docs/introduction/>
+
+    get the API_KEY and the API_URL: <https://app.stochastic.ai/login>
+    
+    简化深度学习模型的生命周期。从上传和版本化模型，到训练、压缩和加速，再到将其投入生产。
+
+30. **Writer** <https://writer.com/>
+    
+    Writer是一个生成不同语言内容的平台。
+
+    获得WRITER_API_KEY <https://dev.writer.com/docs>
+

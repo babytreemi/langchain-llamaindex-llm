@@ -3,7 +3,9 @@
 * [Introduction](README.md)
 * [概念](concept/README.md)
   * [components](concept/componets.md)
-* [Langchain基本指南](Getstarted4langchain.md)
+* [Langchain基本指南](guide4lc/README.md)
+  * [LLM](guide4lc/LLM.md)
+  * [Chat Models](guide4lc/ChatModels.md)
 * [Langchain详细使用](use_detail4lc/README.md)
   * [缓存调用提速](use_detail4lc/cache_LLM.md)
 * [Langchain使用案例]
