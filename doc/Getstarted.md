@@ -1,4 +1,6 @@
 # Getting Started
+本文档只展示一些核心代码，具体代码见：
+
 langchain为模型提供了一个标准统一的接口
 两种主要的模型类型：
 有两种主要类型的模型：
@@ -304,3 +306,18 @@ langchain.llm_cache = GPTCache(init_gptcache)
 **SQLAlchemy Cache**
 
 ```python
+engine = create_engine("postgresql://postgres:postgres@localhost:5432/postgres")
+langchain.llm_cache = SQLAlchemyCache(engine, FulltextLLMCache)
+```
+
+**Optional Caching**
+
+针对特定的LLM，可以选择性地启用缓存。这可以通过在LLM的初始化中设置cache_enabled=True来完成。
+
+```python	
+llm = OpenAI(model_name="text-davinci-002", n=2, best_of=2, cache=False)
+```
+、
+**Optional Caching in Chains**
+
+关闭chain中特定节点的缓存

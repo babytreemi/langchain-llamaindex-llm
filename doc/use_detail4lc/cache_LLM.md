@@ -1,5 +1,5 @@
 # How to cache LLM calls
-缓存调用结果指南
+缓存调用指南 
 
 ## In Memory Cache
 ```python
@@ -178,3 +178,45 @@ langchain.llm_cache = SQLAlchemyCache(engine, FulltextLLMCache)
 ```
 
 注意需要运行对应的**PostgreSQL**服务器
+
+## Optional Caching
+
+```python
+llm = OpenAI(model_name="text-davinci-002", n=2, best_of=2, cache=False)
+```
+
+## Optional Caching in Chains
+
+```python
+llm = OpenAI(model_name="text-davinci-002")
+no_cache_llm = OpenAI(model_name="text-davinci-002", cache=False)
+```
+
+```python
+from langchain.text_splitter import CharacterTextSplitter
+from langchain.chains.mapreduce import MapReduceChain
+
+text_splitter = CharacterTextSplitter()
+```
+
+```python
+with open('../../../state_of_the_union.txt') as f:
+    state_of_the_union = f.read()
+texts = text_splitter.split_text(state_of_the_union)
+```
+
+```python
+from langchain.docstore.document import Document
+
+# 从texts列表中取前三个元素，为每个元素创建一个Document对象，然后把这些对象放在一个列表中。
+docs = [Document(page_content=t) for t in texts[:3]]
+from langchain.chains.summarize import load_summarize_chain
+```
+
+```python
+chain = load_summarize_chain(llm, chain_type="map_reduce", reduce_llm=no_cache_llm)
+
+chain.run(docs)
+```
+
+当我们再次运行 `chain.run()时候，会发现运行得更快，但最终的答案是不同的。这是由于在 map 步骤缓存，而在 reduce 步骤不进行缓存。
