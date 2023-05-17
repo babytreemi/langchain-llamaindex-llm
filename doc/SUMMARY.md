@@ -4,6 +4,7 @@
 * [概念](concept/README.md)
   * [components](concept/componets.md)
 * [Langchain基本指南](guide4lc/README.md)
+  * [快速开始](guide4lc/notebooks/QuickstartGuide4lc.ipynb)
   * [LLM](guide4lc/LLMguide4lc.md)
   * [Chat Models](guide4lc/Chatmodelguide4lc.md)
   * [Text Embedding Models](guide4lc/textembedding.md)

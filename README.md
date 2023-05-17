@@ -29,6 +29,8 @@ langchain doc4js: <https://js.langchain.com/docs/>
 使用google搜索需要设置SERPAPI_API_KEY，在这里注册：<https://serpapi.com/users/welcome>
 
 Anthropic申请和注册 <https://www.anthropic.com/product>
+
+langchain hub <https://github.com/hwchase17/langchain-hub>
 ## 常用命令和代码
 
 ### 1. install
