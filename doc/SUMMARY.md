@@ -12,12 +12,14 @@
 * [Langchain详细使用](use_detail4lc/README.md)
   * [缓存调用提速](use_detail4lc/cache_LLM.md)
   * [连接到Feature Store](use_detail4lc/connecting_to_feature_store.md)
+  * [prompt](use_detail4lc/Howto4prompt_template.md)
 * [Langchain使用案例]()
 * [Langchain相关资料（项目和论文）]()
 * [Llamaindex基本指南]()
 * [Llamaindex详细使用]()
 * [Llamaindex使用案例]()
 * [Llamaindex相关资料（项目和论文）]()
+* [通用相关资料](项目和论文)()
 
 
 * [常见错误及解决方法](常见错误及解决方法.md)
