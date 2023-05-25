@@ -108,7 +108,9 @@ index.vectorstore
 index.vectorstore.as_retriever()
 # ->VectorStoreRetriever(vectorstore=<langchain.vectorstores.chroma.Chroma object at 0x119aa5940>, search_kwargs={}) 
 ```
+
 **How is this index getting created?**
+
 当一个文档加载后，在`VectorstoreIndexCreator`中发生了三步: 
 
 * Splitting documents into chunks 文档拆分
@@ -140,6 +142,28 @@ from langchain.vectorstores import Chroma
 db = Chroma.from_documents(texts, embeddings)
 ```
 
+上面创建了index。然后我们要在retriever接口中公开该索引。
 
+```python
+retriever = db.as_retriever()
+```
 
-将文档和嵌入存储在向量库中
+然后创建一个chain，使用上面的retriever来回答问题。
+
+```python
+qa = RetrievalQA.from_chain_type(llm=OpenAI(), chain_type="stuff", retriever=retriever)
+
+query = "What did the president say about Ketanji Brown Jackson"
+qa.run(query)
+```
+
+`VectorstoreIndexCreator` 是所有这些逻辑的包装器,可以自由配置，比如可以配置如下：
+
+```python
+index_creator = VectorstoreIndexCreator(
+    vectorstore_cls=Chroma, 
+    embedding=OpenAIEmbeddings(),
+    text_splitter=CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
+)
+```
+
