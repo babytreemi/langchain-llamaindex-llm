@@ -28,6 +28,11 @@ langchain doc4js: <https://js.langchain.com/docs/>
 使用google搜索需要设置SERPAPI_API_KEY，在这里注册：<https://serpapi.com/users/welcome>
 
 Anthropic申请和注册 <https://www.anthropic.com/product>
+
+[Unstructured-IO官方git仓库](https://github.com/Unstructured-IO/unstructured)
+
+[Unstructured-IO官方文档](https://www.unstructured.io/)
+
 ## 常用命令和代码
 
 ### 1. install
