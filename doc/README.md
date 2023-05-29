@@ -5,7 +5,7 @@ github地址：<https://github.com/babytreemi/langchain-llamaindex-llm>
 [gitbook](https://babytreemis-organization.gitbook.io/langchain_llama-index_llm/) 
 目前主要是针对python，js后期可能会加入
 ## 介绍
-**LangChain** 是一个用于开发由语言模型驱动的应用程序的框架。我们相信，强大和有区分度的应用程序不仅能通过 API 调用语言模型，而且应该可以：
+**LangChain** 是一个用于开发由语言模型驱动的应用程序的框架。langchain想要实现强大和有区分度的应用程序，不仅能通过 API 调用语言模型，而且要可以：
 1. Be data-aware: connect a language model to other sources of data
 2. Be agentic: allow a language model to interact with its environment
 ## 概念
@@ -28,6 +28,11 @@ langchain doc4js: <https://js.langchain.com/docs/>
 使用google搜索需要设置SERPAPI_API_KEY，在这里注册：<https://serpapi.com/users/welcome>
 
 Anthropic申请和注册 <https://www.anthropic.com/product>
+
+[Unstructured-IO官方git仓库](https://github.com/Unstructured-IO/unstructured)
+
+[Unstructured-IO官方文档](https://www.unstructured.io/)
+
 ## 常用命令和代码
 
 ### 1. install

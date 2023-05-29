@@ -76,5 +76,94 @@ class BaseRetriever(ABC):
 from langchain.chains import RetrievalQA
 from langchain.llms import OpenAI
 ```
-接下来，在通用设置中，让我们指定要使用的文档加载器。可以在这里下载[state_of_the_union.txt](https://github.com/hwchase17/langchain/blob/master/docs/modules/state_of_the_union.txt)
+接下来，在通用设置中，让我们指定要使用的文档加载器,可以在这里下载[state_of_the_union.txt](https://github.com/hwchase17/langchain/blob/master/docs/modules/state_of_the_union.txt)
+
+```PYTHON
+from langchain.document_loaders import TextLoader
+loader = TextLoader('../state_of_the_union.txt', encoding='utf8')
+```
+**One Line Index Creation**
+```python
+from langchain.indexes import VectorstoreIndexCreator
+index = VectorstoreIndexCreator().from_loaders([loader])
+
+# ask question
+query = "What did the president say about Ketanji Brown Jackson"
+index.query(query)
+# -> " The president said that Ketanji Brown Jackson is one of the nation's top legal minds, a former top litigator in private practice, a former federal public defender, and from a family of public school educators and police officers. He also said that she is a consensus builder and has received a broad range of support from the Fraternal Order of Police to former judges appointed by Democrats and Republicans."
+
+query = "What did the president say about Ketanji Brown Jackson"
+index.query_with_sources(query)
+# ->
+# {'question': 'What did the president say about Ketanji Brown Jackson','answer': " The president said that he nominated Circuit Court of Appeals Judge Ketanji Brown Jackson, one of the nation's top legal minds, to continue Justice Breyer's legacy of excellence, and that she has received a broad range of support from the Fraternal Order of Police to former judges appointed by Democrats and Republicans.\n",'sources': '../state_of_the_union.txt'}
+```
+`VectorstoreIndexCreator`返回的是`VectorStoreIndexWrapper`，它提供了上述`query`和`query_with_sources`功能。如果只是想直接访问vectorstore:
+
+```python
+index.vectorstore
+#—> <langchain.vectorstores.chroma.Chroma at 0x119aa5940>
+```
+访问`VectorstoreRetriever`:
+```python
+index.vectorstore.as_retriever()
+# ->VectorStoreRetriever(vectorstore=<langchain.vectorstores.chroma.Chroma object at 0x119aa5940>, search_kwargs={}) 
+```
+
+**How is this index getting created?**
+
+当一个文档加载后，在`VectorstoreIndexCreator`中发生了三步: 
+
+* Splitting documents into chunks 文档拆分
+
+* Creating embeddings for each document 创建embedding
+
+* Storing documents and embeddings in a vectorstore 存储
+
+```python
+# from langchain.document_loaders import TextLoader
+# loader = TextLoader('../state_of_the_union.txt', encoding='utf8')
+documents = loader.load()
+```
+```python
+# text spllitter
+from langchain.text_splitter import CharacterTextSplitter
+text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
+texts = text_splitter.split_documen(documents)                            
+```
+
+```python 
+# select embedding
+from langchain.embeddings import OpenAIEmbeddings
+embeddings = OpenAIEmbeddings()
+```
+```python
+#  create the vectorstore to use as the index
+from langchain.vectorstores import Chroma
+db = Chroma.from_documents(texts, embeddings)
+```
+
+上面创建了index。然后我们要在retriever接口中公开该索引。
+
+```python
+retriever = db.as_retriever()
+```
+
+然后创建一个chain，使用上面的retriever来回答问题。
+
+```python
+qa = RetrievalQA.from_chain_type(llm=OpenAI(), chain_type="stuff", retriever=retriever)
+
+query = "What did the president say about Ketanji Brown Jackson"
+qa.run(query)
+```
+
+`VectorstoreIndexCreator` 是所有这些逻辑的包装器,可以自由配置，比如可以配置如下：
+
+```python
+index_creator = VectorstoreIndexCreator(
+    vectorstore_cls=Chroma, 
+    embedding=OpenAIEmbeddings(),
+    text_splitter=CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
+)
+```
 
