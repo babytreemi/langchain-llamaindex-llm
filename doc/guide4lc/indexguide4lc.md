@@ -69,12 +69,12 @@ class BaseRetriever(ABC):
 
 	4. Ask questions!
 
-每个步骤都有多个子步骤和可能的配置。在本笔记本中，我们将主要关注(1)。我们将首先展示这样做的一行代码，然后分解实际发生的事情。更多细节见：
+每个步骤都有多个子步骤和可能的配置。我们将主要关注(1)。我们将首先展示这样做的一行代码，然后分解解释实际发生的事情。 更多细节见：xx
 
-首先，导入一些无论如何都要使用的常用类。
+首先，导入常用类。
 ```python 
 from langchain.chains import RetrievalQA
 from langchain.llms import OpenAI
 ```
-接下来，在通用设置中，让我们指定要使用的文档加载器。你可以在这里下载[state_of_the_union.txt](https://github.com/hwchase17/langchain/blob/master/docs/modules/state_of_the_union.txt)
+接下来，在通用设置中，让我们指定要使用的文档加载器。可以在这里下载[state_of_the_union.txt](https://github.com/hwchase17/langchain/blob/master/docs/modules/state_of_the_union.txt)
 
