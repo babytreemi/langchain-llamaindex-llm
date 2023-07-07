@@ -2,6 +2,7 @@
 因为这两个库迭代太快➕看不懂大佬们写的代码➕英语不好➕踩坑太多➕环境配置总是冲突，所以自己造一个简单的仓库方便自己造福和我一样的小可怜
 
 大模型预训练和服务调研：<https://github.com/babytreemi/all-about-llm>
+
 github地址：<https://github.com/babytreemi/langchain-llamaindex-llm>
 
 [gitbook](https://babytreemis-organization.gitbook.io/langchain_llama-index_llm/) 
